@@ -104,5 +104,5 @@
 - **Initial Commit Hash:** `520abb8`
 - **Commit Message:** `feat: audit, remediation, and github readiness standardization`
 - **Status Working Tree:** Bersih (`working tree clean`).
-- **Remote Status:** Belum dikonfigurasi remote (siap ditambahkan via `git remote add origin <url>` dan `git push -u origin main` oleh pemilik proyek).
+- **Remote Status:** Terhubung dan terpublikasi ke https://github.com/WildanHumaidi/kripto_file (branch origin/main).
 - **Perlindungan Pekerjaan Pengguna:** Terpenuhi. File sampel pengguna (`test_txt.txt`, `test_doc.docx`, `test_ppt.pptx`), arsip cipher lama di `dashboard/hasil_ekripsi/`, dan aset asli pengguna tetap terjaga utuh tanpa ada yang terhapus atau tertimpa secara merusak.
