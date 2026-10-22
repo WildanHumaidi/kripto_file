@@ -2,6 +2,7 @@
 session_start();
 include "../config.php";   // Memasukkan koneksi
 include "AES.php";          // Memasukkan file AES
+include "audit_helper.php"; // Memasukkan audit logger
 
 if (empty($_SESSION['username'])) {
     header("location: ../index.php");
@@ -85,6 +86,8 @@ if (isset($_POST['encrypt_now'])) {
         }
         fclose($file_source);
         fclose($file_output);
+
+        log_activity($connect, $user, 'ENCRYPT_FILE', "Enkripsi berkas: " . $raw_name . " -> " . $url);
 
         echo("<script language='javascript'>
         window.location.href='enkripsi.php';

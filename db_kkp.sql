@@ -44,3 +44,19 @@ CREATE TABLE IF NOT EXISTS `file` (
   KEY `idx_username` (`username`),
   KEY `idx_status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+-- Struktur Tabel `audit_logs` (Audit Trail Aktivitas Sistem)
+-- --------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `audit_logs` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(50) NOT NULL,
+  `action` VARCHAR(50) NOT NULL,
+  `description` VARCHAR(255) DEFAULT NULL,
+  `ip_address` VARCHAR(45) DEFAULT NULL,
+  `created_at` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_log_user` (`username`),
+  KEY `idx_log_action` (`action`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

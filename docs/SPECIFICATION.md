@@ -17,7 +17,11 @@
 | `GET` | `/dashboard/dekripsi.php` | Terotentikasi | Halaman tabel berkas untuk didekripsi |
 | `GET` | `/dashboard/decrypt-file.php` | Terotentikasi | Halaman input password berkas target |
 | `POST` | `/dashboard/decrypt-process.php` | Terotentikasi | Handler pemrosesan dekripsi berkas |
-| `GET` | `/dashboard/download.php` | Terotentikasi | Handler streaming pengunduhan berkas |
+| `GET` | `/dashboard/download.php` | Terotentikasi | Handler streaming pengunduhan berkas instan |
+| `GET` | `/dashboard/download-file.php` | Terotentikasi | Handler unduhan berkas .rda dan hasil dekripsi |
+| `GET` | `/dashboard/delete-file.php` | Terotentikasi | Handler penghapusan berkas fisik dan record |
+| `GET/POST`| `/dashboard/profile.php` | Terotentikasi | Halaman profil dan formulir ubah password |
+| `GET` | `/dashboard/logs.php` | Terotentikasi | Halaman audit trail & riwayat aktivitas |
 | `GET` | `/dashboard/logout.php` | Terotentikasi | Handler penghancuran sesi & logout |
 
 ---

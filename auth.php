@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'config.php';
+include 'dashboard/audit_helper.php';
 
 $error = '';
 if (isset($_POST['login'])) {
@@ -21,9 +22,11 @@ if (isset($_POST['login'])) {
             if ($rows) {
                 session_regenerate_id(true);
                 $_SESSION['username'] = $rows['username'];
+                log_activity($connect, $rows['username'], 'LOGIN_SUCCESS', 'Pengguna berhasil masuk ke sistem');
                 header("location: dashboard/index.php");
                 exit();
             } else {
+                log_activity($connect, $user, 'LOGIN_FAILED', 'Percobaan login gagal dengan username: ' . $user);
                 echo "<script language=\"JavaScript\">\n";
                 echo "alert('Username atau Password Salah!');\n";
                 echo "window.location='index.php';\n";

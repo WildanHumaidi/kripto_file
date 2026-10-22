@@ -11,6 +11,7 @@
 ```mermaid
 erDiagram
     USERS ||--o{ FILE : "mengunggah / memiliki"
+    USERS ||--o{ AUDIT_LOGS : "memicu"
 
     USERS {
         varchar(50) username PK "Nama unik pengguna / ID login"
@@ -31,6 +32,15 @@ erDiagram
         datetime tgl_upload "Waktu proses enkripsi berkas"
         enum status "Status berkas: 1=Terenkripsi, 2=Didekripsi"
         text keterangan "Catatan / deskripsi tambahan berkas"
+    }
+
+    AUDIT_LOGS {
+        int(11) id PK "Auto Increment Primary Key"
+        varchar(50) username FK "Nama pengguna pelaku aksi"
+        varchar(50) action "Kode aktivitas sistem"
+        varchar(255) description "Rincian aktivitas"
+        varchar(45) ip_address "Alamat IP pengguna"
+        datetime created_at "Waktu terjadinya aksi"
     }
 ```
 
@@ -64,6 +74,18 @@ Menyimpan metadata berkas digital yang diproses oleh modul enkripsi dan dekripsi
 | `tgl_upload` | DATETIME | NO | - | Timestamp saat proses enkripsi berkas selesai. |
 | `status` | ENUM('1', '2') | NO | '1' | Status operasional: `'1'` = Terenkripsi, `'2'` = Didekripsi. |
 | `keterangan` | TEXT | YES | NULL | Deskripsi bebas terkait isi atau peruntukan berkas. |
+
+### 2.3 Tabel `audit_logs`
+Menyimpan jejak audit keamanan seluruh aktivitas penting di dalam sistem.
+
+| Kolom | Tipe Data | Nullable | Default | Keterangan |
+|---|---|---|---|---|
+| `id` | INT(11) | NO | AUTO_INCREMENT | **Primary Key**. ID numerik entri log. |
+| `username` | VARCHAR(50) | NO | - | Nama pengguna yang menjalankan aksi. |
+| `action` | VARCHAR(50) | NO | - | Kode aksi (`LOGIN_SUCCESS`, `LOGIN_FAILED`, `ENCRYPT_FILE`, `DECRYPT_SUCCESS`, `DECRYPT_FAILED`, `DOWNLOAD_CIPHER`, `DOWNLOAD_PLAIN`, `DELETE_FILE`, `CHANGE_PASSWORD`). |
+| `description` | VARCHAR(255) | YES | NULL | Deskripsi teks rincian aktivitas. |
+| `ip_address` | VARCHAR(45) | YES | NULL | Alamat IP klien pengguna. |
+| `created_at` | DATETIME | NO | - | Waktu terjadinya aksi. |
 
 ---
 

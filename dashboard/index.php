@@ -99,7 +99,7 @@ if ($stmt) {
         <div class="left-sidebar-pro">
             <nav id="sidebar" class="">
                 <div class="sidebar-header">
-                    <a href="index.html"><img class="main-logo" src="img/logo/logosn.png" alt="" /></a>
+                    <a href="index.php"><img class="main-logo" src="img/logo/logosn.png" alt="" /></a>
                     <strong><img src="img/logo/logos.png" alt=""></strong>
                 </div>
                 <div class="nalika-profile">
@@ -119,7 +119,7 @@ if ($stmt) {
                     <nav class="sidebar-nav left-sidebar-menu-pro">
                         <ul class="metismenu" id="menu1">
                             <li class="active">
-                                <a class="nav-link" href="index.html">
+                                <a class="nav-link" href="index.php">
                                     <i class="icon nalika-home icon-wrap"></i>
                                     <span class="mini-click-non">Dashboard</span>
                                 </a>
@@ -129,6 +129,12 @@ if ($stmt) {
                             </li>
                             <li>
                                 <a class="nav-link" href="dekripsi.php" aria-expanded="false"><i class="icon nalika-unlocked icon-wrap"></i> <span class="mini-click-non">Dekripsi</span></a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="logs.php" aria-expanded="false"><i class="fa fa-history icon-wrap"></i> <span class="mini-click-non">Log Aktivitas</span></a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="profile.php" aria-expanded="false"><i class="fa fa-user icon-wrap"></i> <span class="mini-click-non">Profil</span></a>
                             </li>
                         </ul>
                     </nav>
@@ -141,7 +147,7 @@ if ($stmt) {
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="logo-pro">
-                        <a href="index.html"><img class="main-logo" src="img/logo/logo.png" alt="" /></a>
+                        <a href="index.php"><img class="main-logo" src="img/logo/logo.png" alt="" /></a>
                     </div>
                 </div>
             </div>
@@ -174,7 +180,10 @@ if ($stmt) {
                                         <div class="header-right-info">
                                             <ul class="nav navbar-nav mai-top-nav header-right-menu">                                                      
                                                 <li class="nav-item">
-                                                    <a href="logout.php"> Log Out</a>
+                                                    <a href="profile.php" style="color:#fff; margin-right:15px;"><i class="fa fa-user"></i> Profil</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="logout.php" style="color:#fff;"><i class="fa fa-sign-out"></i> Log Out</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -256,16 +265,24 @@ if ($stmt) {
                       <tr>
                         <!-- <td style="color:#fff;"><strong>ID File</strong></td> -->
                         <td style="color:#fff;"><strong>Username</strong></td>
-                        <td style="color:#fff;"><strong>Nama File</strong></td>
-                        <td style="color:#fff;"><strong>Nama File Enkripsi</strong></td>
-                        <td style="color:#fff;"><strong>Ukuran File</strong></td>
+                        <td style="color:#fff;"><strong>File Sumber</strong></td>
+                        <td style="color:#fff;"><strong>File Enkripsi (.rda)</strong></td>
+                        <td style="color:#fff;"><strong>Ukuran</strong></td>
                         <td style="color:#fff;"><strong>Tanggal</strong></td>
                         <td style="color:#fff;"><strong>Status</strong></td>
+                        <td style="color:#fff;"><strong>Aksi</strong></td>
                       </tr>
                     </thead>
                     <tbody>
                       <?php
-                        $query = mysqli_query($connect,"SELECT * FROM file");
+                        if ($user === 'admin') {
+                            $query = mysqli_query($connect,"SELECT * FROM file ORDER BY id_file DESC");
+                        } else {
+                            $stmt_fl = mysqli_prepare($connect, "SELECT * FROM file WHERE username = ? ORDER BY id_file DESC");
+                            mysqli_stmt_bind_param($stmt_fl, "s", $user);
+                            mysqli_stmt_execute($stmt_fl);
+                            $query = mysqli_stmt_get_result($stmt_fl);
+                        }
                         while ($data = mysqli_fetch_array($query)) { ?>
                         <tr>
                           <!-- <td><?php echo (int)$data['id_file']; ?></td> -->
@@ -282,13 +299,25 @@ if ($stmt) {
                           ?></td>
                           <td><?php echo htmlspecialchars($data['tgl_upload'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
                           <td><?php if ($data['status'] == 1) {
-                            echo "<span class='btn btn-danger'>Terenkripsi</span>";
+                            echo "<span class='label label-danger'>Terenkripsi</span>";
                           }elseif ($data['status'] == 2) {
-                            echo "<span class='btn btn-success'>Sudah Didekripsi</span>";
+                            echo "<span class='label label-success'>Sudah Didekripsi</span>";
                           }else {
-                            echo "<span class='btn btn-danger'>Status Tidak Diketahui</span>";
+                            echo "<span class='label label-default'>Status Tidak Diketahui</span>";
                           }
                           ?></td>
+                          <td>
+                            <?php
+                            $a = (int)$data['id_file'];
+                            if ($data['status'] == 1) {
+                                echo '<a href="decrypt-file.php?id_file='.$a.'" class="btn btn-primary btn-xs" style="margin-right:4px;"><i class="fa fa-unlock"></i> Dekripsi</a>';
+                                echo '<a href="download-file.php?id_file='.$a.'&type=encrypted" class="btn btn-warning btn-xs"><i class="fa fa-download"></i> .RDA</a>';
+                            } elseif ($data['status'] == 2) {
+                                echo '<a href="download-file.php?id_file='.$a.'&type=decrypted" class="btn btn-success btn-xs" style="margin-right:4px;"><i class="fa fa-download"></i> File Asli</a>';
+                                echo '<a href="download-file.php?id_file='.$a.'&type=encrypted" class="btn btn-warning btn-xs"><i class="fa fa-download"></i> .RDA</a>';
+                            }
+                            ?>
+                          </td>
                         </tr>
                         <?php
                       } ?>

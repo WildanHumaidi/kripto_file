@@ -99,7 +99,7 @@ if ($stmt) {
         <div class="left-sidebar-pro">
             <nav id="sidebar" class="">
                 <div class="sidebar-header">
-                    <a href="index.html"><img class="main-logo" src="img/logo/logosn.png" alt="" /></a>
+                    <a href="index.php"><img class="main-logo" src="img/logo/logosn.png" alt="" /></a>
                     <strong><img src="img/logo/logos.png" alt=""></strong>
                 </div>
                 <div class="nalika-profile">
@@ -118,17 +118,23 @@ if ($stmt) {
                 <div class="left-custom-menu-adp-wrap comment-scrollbar">
                     <nav class="sidebar-nav left-sidebar-menu-pro">
                         <ul class="metismenu" id="menu1">
-                            <li class="active">
+                            <li>
                                 <a class="nav-link" href="index.php">
                                     <i class="icon nalika-home icon-wrap"></i>
                                     <span class="mini-click-non">Dashboard</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="active">
                                 <a class="nav-link" href="enkripsi.php" aria-expanded="false"><i class="icon nalika-unlocked icon-wrap"></i> <span class="mini-click-non">Enkripsi</span></a>
                             </li>
                             <li>
                                 <a class="nav-link" href="dekripsi.php" aria-expanded="false"><i class="icon nalika-unlocked icon-wrap"></i> <span class="mini-click-non">Dekripsi</span></a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="logs.php" aria-expanded="false"><i class="fa fa-history icon-wrap"></i> <span class="mini-click-non">Log Aktivitas</span></a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="profile.php" aria-expanded="false"><i class="fa fa-user icon-wrap"></i> <span class="mini-click-non">Profil</span></a>
                             </li>
                         </ul>
                     </nav>
@@ -141,7 +147,7 @@ if ($stmt) {
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="logo-pro">
-                        <a href="index.html"><img class="main-logo" src="img/logo/logo.png" alt="" /></a>
+                        <a href="index.php"><img class="main-logo" src="img/logo/logo.png" alt="" /></a>
                     </div>
                 </div>
             </div>
@@ -174,7 +180,10 @@ if ($stmt) {
                                         <div class="header-right-info">
                                             <ul class="nav navbar-nav mai-top-nav header-right-menu">                                                      
                                                 <li class="nav-item">
-                                                    <a href="logout.php"> Log Out</a>
+                                                    <a href="profile.php" style="color:#fff; margin-right:15px;"><i class="fa fa-user"></i> Profil</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="logout.php" style="color:#fff;"><i class="fa fa-sign-out"></i> Log Out</a>
                                                 </li>
                                             </ul>
                                         </div>

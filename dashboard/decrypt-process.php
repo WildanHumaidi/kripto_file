@@ -2,6 +2,7 @@
 session_start();
 include "../config.php";   // Memasukkan koneksi
 include "AES.php";          // Memasukkan file AES
+include "audit_helper.php"; // Memasukkan audit logger
 
 if (empty($_SESSION['username'])) {
     header("location: ../index.php");
@@ -74,6 +75,8 @@ if ($data) {
         fclose($fopen2);
 
         $_SESSION["download"] = $cache;
+        $curr_user = $_SESSION['username'] ?? 'unknown';
+        log_activity($connect, $curr_user, 'DECRYPT_SUCCESS', "Dekripsi berkas ID $idfile: " . $file_name);
 
         echo("<script language='javascript'>
         window.open('download.php', '_blank');
@@ -91,6 +94,8 @@ if ($data) {
         exit();
     }
 } else {
+    $curr_user = $_SESSION['username'] ?? 'unknown';
+    log_activity($connect, $curr_user, 'DECRYPT_FAILED', "Percobaan dekripsi gagal pada berkas ID: $idfile (password salah)");
     echo("<script language='javascript'>
     window.location.href='decrypt-file.php?id_file=" . (int)$idfile . "';
     window.alert('Maaf, Password tidak sesuai.');

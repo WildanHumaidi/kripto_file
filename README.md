@@ -8,8 +8,12 @@ Aplikasi web untuk enkripsi dan dekripsi berkas dokumen digital secara aman meng
 
 - **Enkripsi Dokumen:** Mengamankan file dokumen (`.txt`, `.docx`, `.pptx`, `.pdf`, `.doc`, `.xls`, `.xlsx`, `.ppt`) menjadi berkas cipher biner berekstensi `.rda`.
 - **Dekripsi Bit-for-Bit Identik:** Memulihkan kembali file cipher ke bentuk aslinya dengan integritas data eksak 100% (panjang byte dan hash SHA-256 identik).
-- **Manajemen Kunci Per Berkas:** Kunci derivasi diatur per berkas menggunakan kata sandi yang ditentukan pengguna.
-- **Dashboard Statistik:** Ringkasan jumlah pengguna terdaftar, berkas terenkripsi, dan berkas yang telah didekripsi.
+- **Pengunduhan Fleksibel (.RDA & File Asli):** Pengguna dapat mengunduh berkas cipher `.rda` kapan saja dan mengunduh ulang berkas asli hasil dekripsi.
+- **Penghapusan Berkas Aman:** Penghapusan berkas fisik (`.rda` dan dekripsi) beserta rekaman database dengan konfirmasi aman.
+- **Audit Trail & Log Aktivitas:** Pencatatan otomatis seluruh riwayat aktivitas sistem (login, enkripsi, dekripsi, unduhan, hapus) lengkap dengan IP address dan timestamp.
+- **Pengaturan Profil & Ubah Password:** Antarmuka bagi pengguna untuk memperbarui nama lengkap, jabatan, dan kata sandi akun secara mandiri.
+- **Privasi Berkas (Multi-User Isolation):** Pengguna non-admin hanya dapat melihat dan mengelola berkas miliknya sendiri.
+- **Transparansi Checksum SHA-256:** Menampilkan nilai hash SHA-256 dari berkas `.rda` untuk pembuktian integritas matematis.
 - **Keamanan Terverifikasi:** Dilengkapi proteksi Execution After Redirect (EAR), Parameterized Prepared Statements (anti-SQL Injection), sanitasi XSS (`htmlspecialchars`), dan perlindungan Path Traversal (`basename`).
 
 ---
@@ -34,14 +38,19 @@ kripto_file/
 │   ├── hasil_dekripsi/      # Direktori output berkas hasil dekripsi
 │   ├── hasil_ekripsi/       # Direktori penyimpanan berkas cipher (.rda)
 │   ├── AES.php              # Implementasi mesin algoritma AES-128
+│   ├── audit_helper.php     # Helper pencatatan riwayat audit trail
 │   ├── decrypt-file.php     # Halaman formulir input password dekripsi
 │   ├── decrypt-process.php  # Pemroses dekripsi blok AES & pemulihan file
 │   ├── dekripsi.php         # Tabel repositori file terenkripsi
-│   ├── download.php         # Handler streaming unduhan berkas aman
+│   ├── delete-file.php      # Handler penghapusan berkas fisik & record
+│   ├── download.php         # Handler streaming unduhan berkas instan
+│   ├── download-file.php    # Handler unduhan berkas .rda dan hasil dekripsi
 │   ├── encrypt-process.php  # Pemroses enkripsi dokumen & pembentukan .rda
 │   ├── enkripsi.php         # Formulir unggah & enkripsi dokumen
 │   ├── index.php            # Halaman beranda utama dashboard
-│   └── logout.php           # Handler penghancuran sesi & logout
+│   ├── logout.php           # Handler penghancuran sesi & logout
+│   ├── logs.php             # Halaman riwayat audit trail sistem
+│   └── profile.php          # Halaman pengaturan profil & ganti password
 ├── docs/                    # Dokumentasi teknis & arsitektur
 │   ├── audit/               # Laporan baseline, bug audit, security, risiko
 │   ├── ARCHITECTURE.md      # Desain arsitektur & sequence diagram
@@ -53,7 +62,8 @@ kripto_file/
 │   └── TESTING.md           # Panduan dan matriks hasil pengujian
 ├── tests/                   # Suite pengujian otomatis mandiri
 │   ├── test_cryptography.php    # Uji integritas round-trip AES & padding
-│   └── test_security_access.php # Uji EAR guard & mitigasi SQL Injection
+│   ├── test_security_access.php # Uji EAR guard & mitigasi SQL Injection
+│   └── test_new_features.php    # Uji download, delete, profile, logs, privasi
 ├── .env.example             # Template konfigurasi environment
 ├── .gitignore               # Konfigurasi pengabaian file Git
 ├── auth.php                 # Handler autentikasi kredensial login
