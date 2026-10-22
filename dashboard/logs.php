@@ -132,7 +132,7 @@ if ($stmt) {
               <div class="card-body">
                 <h3 style="color:#fff; border-bottom: 1px solid #2a3c5a; padding-bottom: 10px;">Riwayat Audit Trail & Aktivitas Sistem</h3>
                 <div class="table-responsive" style="margin-top: 20px; color:#fff;">
-                    <table class="table striped">
+                    <table id="logTable" class="table striped">
                         <thead>
                             <tr>
                                 <th width="5%" style="color:#fff;">No</th>
@@ -198,5 +198,29 @@ if ($stmt) {
     <script src="js/jquery.meanmenu.js"></script>
     <script src="js/jquery.sticky.js"></script>
     <script src="js/main.js"></script>
+    <script src="../assets/plugins/datatables/js/jquery.dataTables.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            if ($.fn.dataTable) {
+                $('#logTable').dataTable({
+                    "bPaginate": true,
+                    "bLengthChange": true,
+                    "bFilter": true,
+                    "bInfo": true,
+                    "bAutoWidth": false,
+                    "order": [[0, "asc"]],
+                    "language": {
+                        "search": "Cari Log:",
+                        "emptyTable": "Belum ada riwayat aktivitas",
+                        "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ aktivitas",
+                        "paginate": {
+                            "next": "Berikutnya",
+                            "previous": "Sebelumnya"
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

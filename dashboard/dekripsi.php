@@ -332,23 +332,30 @@ if ($stmt) {
     <script src="js/plugins.js"></script>
     <!-- main JS
 		============================================ -->
-    <script src="../assets/js/jquery-2.1.4.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="../assets/plugins/datatables/js/jquery.dataTables.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-        $('#file').dataTable({
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bInfo": true,
-            "bAutoWidth": true,
-          "order": [0, "asc"]
+            if ($.fn.dataTable) {
+                $('#file').dataTable({
+                    "bPaginate": true,
+                    "bLengthChange": true,
+                    "bFilter": true,
+                    "bInfo": true,
+                    "bAutoWidth": false,
+                    "order": [[0, "asc"]],
+                    "language": {
+                        "search": "Cari Berkas:",
+                        "emptyTable": "Belum ada berkas yang tersimpan",
+                        "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ berkas",
+                        "paginate": {
+                            "next": "Berikutnya",
+                            "previous": "Sebelumnya"
+                        }
+                    }
+                });
+            }
         });
-        });
-        </script>
-    <script src="../assets/js/essential-plugins.js"></script>
-    <script src="../assets/js/bootstrap.min.js"></script>
-    <script src="../assets/plugins/datatables/js/jquery.dataTables.js"></script>
-    <script src="../assets/js/plugins/pace.min.js"></script>
-    <script src="../assets/js/main.js"></script>
+    </script>
 </body>
 </html>
