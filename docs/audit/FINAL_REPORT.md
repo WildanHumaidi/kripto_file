@@ -8,14 +8,14 @@
 
 ## A. Status Keseluruhan
 
-### **READY WITH WARNINGS**
+### **READY FOR GITHUB**
 
-**Alasan Penetapan Status:**
+**Kondisi Kesiapan:**
 1. Seluruh pekerjaan audit, remediasi bug logika/integritas kritis, perbaikan kompatibilitas PHP 8, dan penguatan keamanan (EAR guard, anti-SQL injection, anti-XSS, path traversal defense) telah **selesai dan terverifikasi 100% lulus uji otomatis**.
-2. Status tidak dapat diberikan *READY FOR GITHUB* mutlak karena terdapat prasyarat administratif dan keputusan pemilik proyek:
-   - **Git Status:** Workspace belum diinisialisasi sebagai repository Git (`git init` ditahan sesuai klausul guardrail 0.2 & 8.3 hingga izin pengguna).
-   - **License Status:** File lisensi resmi belum ada (`LICENSE MISSING / OWNER DECISION REQUIRED`).
-   - **Password Hash Legacy:** Format penyimpanan kata sandi akun pada database saat ini masih menggunakan MD5 untuk kompatibilitas skema lama.
+2. **Git Repository:** Berhasil diinisialisasi pada branch `main` dengan commit awal yang bersih (`520abb8`).
+3. **Lisensi Hukum:** Telah distandarisasi dengan lisensi resmi **MIT License** (`LICENSE`).
+4. **Pembersihan File:** File duplikat rusak di `assets/decrypt*.php` telah dibersihkan secara aman.
+5. **Perlindungan Pekerjaan Pengguna:** Seluruh berkas asli pengguna, sampel dokumen uji, dan cipher arsip lama tetap utuh dan terlindungi.
 
 ---
 
@@ -88,24 +88,21 @@
 
 ---
 
-## D. Risiko Tersisa & Keputusan Pemilik Proyek
+## D. Risiko Tersisa & Catatan Pemilik Proyek
 
-1. **Keputusan Lisensi Hukum (`LICENSE`):**
-   - *Status:* Belum ditentukan.
-   - *Rekomendasi:* Pemilik proyek disarankan memilih lisensi yang sesuai (misal MIT, Apache-2.0, atau Proprietary) sebelum mempublikasikan repository ke GitHub secara publik.
-2. **Inisialisasi Git Repository:**
-   - *Status:* Direktori saat ini bukan repository Git.
-   - *Rekomendasi:* Pemilik proyek dapat menjalankan `git init`, `git add .`, dan commit perdana secara terkontrol.
-3. **Skema Hashing Password Pengguna (MD5):**
+1. **Skema Hashing Password Pengguna (MD5):**
    - *Status:* Masih menggunakan MD5 untuk kompatibilitas data awal.
    - *Rekomendasi:* Jika aplikasi akan digunakan pada lingkungan produksi luas, migrasikan kolom `users.password` ke algoritma `password_hash()` (Bcrypt atau Argon2id).
-4. **Pembersihan File Stray di Folder `assets/`:**
-   - *Status:* File `assets/decrypt*.php` masih dipertahankan untuk mencegah penghapusan aset pengguna tanpa otorisasi. Dapat dihapus setelah owner menyetujui.
+2. **Kerahasiaan Berkas di Server:**
+   - Direktori `dashboard/hasil_ekripsi/` dan `dashboard/hasil_dekripsi/` disarankan dibatasi hak akses web-nya menggunakan konfigurasi server web (`.htaccess` / Nginx block).
 
 ---
 
 ## E. Status Git & Workspace
 
-- **Git Branch:** `N/A` (Bukan Git repository, exit code 128).
-- **Staged / Unstaged Changes:** `N/A`.
+- **Git Branch:** `main`
+- **Initial Commit Hash:** `520abb8`
+- **Commit Message:** `feat: audit, remediation, and github readiness standardization`
+- **Status Working Tree:** Bersih (`working tree clean`).
+- **Remote Status:** Belum dikonfigurasi remote (siap ditambahkan via `git remote add origin <url>` dan `git push -u origin main` oleh pemilik proyek).
 - **Perlindungan Pekerjaan Pengguna:** Terpenuhi. File sampel pengguna (`test_txt.txt`, `test_doc.docx`, `test_ppt.pptx`), arsip cipher lama di `dashboard/hasil_ekripsi/`, dan aset asli pengguna tetap terjaga utuh tanpa ada yang terhapus atau tertimpa secara merusak.
